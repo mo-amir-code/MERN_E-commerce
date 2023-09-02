@@ -157,7 +157,7 @@ server.post("/create-payment-intent", async (req, res) => {
 
 // webhook
 const endpoint = process.env.ENDPOINT_SECRET
-server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
+server.post('/webhook', express.raw({type: 'application/json'}), async (request, response) => {
   const sig = request.headers['stripe-signature'];
   // const body = JSON.stringify(request.body)
 
@@ -176,11 +176,10 @@ server.post('/webhook', express.raw({type: 'application/json'}), (request, respo
       // Then define and call a function to handle the event payment_intent.succeeded
       try{
         for(let i=0; i<paymentIntentSucceeded.metadata.length; i++){
-          let order = Order.findByIdAndUpdate(paymentIntentSucceeded.metadata[i], {paymentStatus:"Successfull"})
-          console.loh(order)
+          let order = await Order.findById(paymentIntentSucceeded.metadata[i])
+          order.paymentStatus = "Recieved"
+          await order.save()
         }
-        localStorage.setItem("success", JSON.stringify(paymentIntentSucceeded.metadata))
-        res.status(200).json(paymentIntentSucceeded.metadata)
       }catch(error){
         console.log(error)
       }
@@ -191,7 +190,7 @@ server.post('/webhook', express.raw({type: 'application/json'}), (request, respo
   }
 
   // Return a 200 response to acknowledge receipt of the event
-  // response.send();
+  response.send();
 });
 
 
