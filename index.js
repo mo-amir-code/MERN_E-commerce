@@ -143,7 +143,9 @@ server.post("/create-payment-intent", async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
-    metadata:orderIds,
+    metadata:{
+      orderId:orderIds[0]
+    },
   });
 
   
@@ -175,11 +177,9 @@ server.post('/webhook', express.raw({type: 'application/json'}), async (request,
       const paymentIntentSucceeded = event.data.object;
       // Then define and call a function to handle the event payment_intent.succeeded
       try{
-        for(let i=0; i<paymentIntentSucceeded.metadata.length; i++){
-          let order = await Order.findById(paymentIntentSucceeded.metadata[i])
+          const order = await Order.findById(paymentIntentSucceeded.metadata)
           order.paymentStatus = "Recieved"
           await order.save()
-        }
       }catch(error){
         console.log(error)
       }
