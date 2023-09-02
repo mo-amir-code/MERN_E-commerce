@@ -143,7 +143,9 @@ server.post("/create-payment-intent", async (req, res) => {
     automatic_payment_methods: {
       enabled: true,
     },
-    metadata:Array.from(orderIds)
+    metadata:{
+      id:orderIds[0]
+    }
   });
 
   
