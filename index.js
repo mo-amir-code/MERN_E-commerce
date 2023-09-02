@@ -138,7 +138,7 @@ server.post("/create-payment-intent", async (req, res) => {
     amount: totalAmount*100,
     currency: "inr",
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
-    metadata:orderIds,
+    metadata:{...orderIds},
     automatic_payment_methods: {
       enabled: true,
     },
