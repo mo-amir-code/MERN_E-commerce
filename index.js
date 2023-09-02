@@ -179,6 +179,7 @@ server.post('/webhook', express.raw({type: 'application/json'}), (request, respo
           let order = Order.findByIdAndUpdate(paymentIntentSucceeded.metadata[i], {paymentStatus:"Successfull"})
           console.loh(order)
         }
+        localStorage.setItem("success", JSON.stringify(paymentIntentSucceeded.metadata))
         res.status(200).json(paymentIntentSucceeded.metadata)
       }catch(error){
         console.log(error)
