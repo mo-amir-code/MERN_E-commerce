@@ -144,9 +144,9 @@ server.post("/create-payment-intent", async (req, res) => {
       enabled: true,
     },
     metadata:{
-      orderId:orderIds[0]
+      orderId:orderIds[0],
+      idArray:orderIds
     },
-    orderIds:orderIds
   });
 
   
