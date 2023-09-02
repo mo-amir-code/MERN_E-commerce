@@ -30,7 +30,13 @@ opts.secretOrKey = process.env.JWT_SECRET_KEY;
 
 const server = express();
 server.use(cookieParser())
-server.use(express.json());
+server.use((req, res, next) => {
+  if (req.originalUrl === '/webhook') {
+    next(); // Do nothing with the body because I need it in a raw state.
+  } else {
+    express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+  }
+});
 server.use(cors({ exposedHeaders: ["X-Total-Count"] }));
 
 main().catch((err) =>
