@@ -1,0 +1,11 @@
+node_modules
+package-lock.json
+.env
+node_modules
+# public
+# src
+# db.json
+# package-lock.json
+# package.json
+# README.md
+# tailwind.config.js
