@@ -145,14 +145,14 @@ server.post("/create-payment-intent", async (req, res) => {
 
 
 // webhook
-
+const endpoint = process.env.ENDPOINT_SECRET
 server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
 
   let event;
 
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, process.env.ENDPOINT_SECRET);
+    event = stripe.webhooks.constructEvent(request.body, sig, endpoint);
   } catch (err) {
     response.status(400).send(`Webhook Error: ${err.message}`);
     return;
