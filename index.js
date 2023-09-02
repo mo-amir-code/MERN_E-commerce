@@ -149,7 +149,7 @@ server.post("/create-payment-intent", async (req, res) => {
 
 // webhook
 const endpoint = process.env.ENDPOINT_SECRET
-server.post('/webhook', (request, response) => {
+server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
   const body = JSON.stringify(request.body)
 
