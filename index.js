@@ -131,8 +131,8 @@ server.post("/create-payment-intent", async (req, res) => {
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalAmount*100,
     currency: "inr",
-    metadata:orderIds,
     // In the latest version of the API, specifying the `automatic_payment_methods` parameter is optional because Stripe enables its functionality by default.
+    metadata:orderIds,
     automatic_payment_methods: {
       enabled: true,
     },
@@ -151,13 +151,13 @@ server.post("/create-payment-intent", async (req, res) => {
 const endpoint = process.env.ENDPOINT_SECRET
 server.post('/webhook', express.raw({type: 'application/json'}), (request, response) => {
   const sig = request.headers['stripe-signature'];
+  const body = JSON.stringify(request.body)
 
   let event;
-
   try {
-    event = stripe.webhooks.constructEvent(request.body, sig, endpoint);
+    event = stripe.webhooks.constructEvent(body, sig, endpoint);
   } catch (err) {
-    response.status(400).send(`Webhook Error: ${err.message}`);
+    response.status(400).json(`Webhook Error: ${err.message}`);
     return;
   }
 
