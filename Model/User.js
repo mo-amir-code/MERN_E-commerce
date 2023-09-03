@@ -10,7 +10,8 @@ const userSchema = new Schema({
   userImage: { type: String, default: image },
   addresses: { type: [Schema.Types.Mixed], default:[] },
   role: { type: String,  default: "user" },
-  salt: Buffer
+  salt: Buffer,
+  resetPasswordToken: {type:String, default:""}
 });
 
 const virtual = userSchema.virtual("id");

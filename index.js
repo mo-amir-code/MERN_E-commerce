@@ -31,6 +31,7 @@ opts.jwtFromRequest = cookieExtractor
 opts.secretOrKey = process.env.JWT_SECRET_KEY;
 
 const server = express();
+
 server.use(cookieParser())
 server.use((req, res, next) => {
   if (req.originalUrl === '/webhook') {
