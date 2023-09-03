@@ -56,7 +56,6 @@ exports.forgotPasswordRequest = async (req, res) => {
     const token = crypto.randomBytes(48).toString('hex');
     user.resetPasswordToken = token
     await user.save()
-    
     const resetPageLink = `https://mern-e-commerce-tau.vercel.app/forgot-password?token=${token}&email=${user.email}`
     const subject = "Reset password of GAZABB ecommerce clothing brand"
     const html = `<p>Click <a href=${resetPageLink} >here</a> to reset your account password</p>`
