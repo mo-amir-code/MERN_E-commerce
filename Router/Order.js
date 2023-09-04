@@ -1,5 +1,5 @@
 const express = require('express')
-const { createOrder, fetchOrdersByUser, updateOrder, deleteOrder, fetchAllOrders } = require('../Controller/Order')
+const { createOrder, fetchOrdersByUser, updateOrder, deleteOrder, fetchAllOrders, createOrderEmail } = require('../Controller/Order')
 const router = express.Router()
 
 router
@@ -8,5 +8,6 @@ router
     .get("/admin/orders", fetchAllOrders)
     .patch("/", updateOrder)
     .delete("/", deleteOrder)
+    .post("/createorderemail", createOrderEmail)
 
 module.exports = router
